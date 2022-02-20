@@ -47,6 +47,7 @@ Intersection::Intersection()
 {
     _type = ObjectType::objectIntersection;
     _isBlocked = false;
+    std::cout << "new TrafficLight with address " << &_trafficLight << "Created for new intersection at " << this << std::endl; // #DEBUG
 }
 
 void Intersection::addStreet(std::shared_ptr<Street> street)
@@ -84,8 +85,8 @@ void Intersection::addVehicleToQueue(std::shared_ptr<Vehicle> vehicle)
     // wait until the vehicle is allowed to enter
     ftrVehicleAllowedToEnter.wait();
     
-    // if leght is red, wait until green before entering:
-    if (_trafficLight.getCurrentPhase() == TrafficLightPhase::red) {
+    // if leght is red, wait until green before entering
+    if (!trafficLightIsGreen()) {
         _trafficLight.waitForGreen();
     }
 

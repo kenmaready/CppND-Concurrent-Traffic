@@ -5,6 +5,7 @@
 #include <future>
 #include <mutex>
 #include <memory>
+#include <iostream> // #DEBUG
 #include "TrafficObject.h"
 #include "TrafficLight.h"
 

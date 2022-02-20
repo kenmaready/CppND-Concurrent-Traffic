@@ -65,6 +65,7 @@ void TrafficLight::cycleThroughPhases()
 
     while(true) {
         if (std::chrono::steady_clock::now() > cycle_end) {
+            std::lock_guard<std::mutex> guard(_mutex);
             _toggleLight();
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
             cycle_end = _getNewCycleEnd();
