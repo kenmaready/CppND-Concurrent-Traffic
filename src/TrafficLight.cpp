@@ -18,7 +18,6 @@ T MessageQueue<T>::receive()
 
     // remove last message from _queue
     T msg = std::move(_queue.front());
-    std::cout << "Removing msg " << (msg == TrafficLightPhase::red ? "red" : "green") << " to _queue..." << std::endl; // #DEBUG
     _queue.pop_front();
 
     return msg;
@@ -34,7 +33,6 @@ void MessageQueue<T>::send(T &&msg)
     std::lock_guard<std::mutex> guard(_mutex);
 
     // add vmessage to queue
-    std::cout << "Adding msg " << (msg == TrafficLightPhase::red ? "red" : "green") << " to _queue..." << std::endl; // #DEBUG
     _queue.push_back(std::move(msg));
     _condition.notify_one(); 
 }
@@ -84,7 +82,6 @@ void TrafficLight::cycleThroughPhases()
 
     while(true) {
         if (std::chrono::steady_clock::now() > cycle_end) {
-            std::cout << "Cycle ended..." << std:: endl; // #DEBUG
             _toggleLight();
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
             cycle_end = _getNewCycleEnd();
@@ -104,10 +101,8 @@ std::chrono::steady_clock::time_point TrafficLight::_getNewCycleEnd() const
 // helper function to toggle light between red and green:
 void TrafficLight::_toggleLight() {
     if (_currentPhase == TrafficLightPhase::red) {
-        std::cout << "Changing to green" << std::endl; // #DEBUG
         _currentPhase = TrafficLightPhase::green;
     } else {
-        std::cout << "Changing to red" << std::endl; // #DEBUG
         _currentPhase = TrafficLightPhase::red;
     }
 

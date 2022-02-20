@@ -4,7 +4,6 @@
 #include <mutex>
 #include <deque>
 #include <condition_variable>
-#include <iostream> // #DEBUG
 #include "TrafficObject.h"
 
 
@@ -51,10 +50,10 @@ public:
     // typical behaviour methods
     void waitForGreen();
     void simulate();
-    void cycleThroughPhases(); // #DEBUG = move back to private
 
 private:
     // typical behaviour methods
+    void cycleThroughPhases(); //
     std::chrono::steady_clock::time_point _getNewCycleEnd() const;
     void _toggleLight();
 
