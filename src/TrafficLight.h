@@ -54,7 +54,7 @@ private:
     TrafficLightPhase _currentPhase;
     MessageQueue<TrafficLightPhase> _phases;
     int _CYCLE_LENGTH_MIN = 4000; // low end (in ms) of light cycle
-    int _CYCLE_LENGTH_MAX = 10000; // high end (in ms) of light cycle
+    int _CYCLE_LENGTH_MAX = 6000; // high end (in ms) of light cycle
 };
 
 #endif
