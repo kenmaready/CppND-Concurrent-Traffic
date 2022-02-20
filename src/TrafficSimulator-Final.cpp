@@ -117,8 +117,8 @@ int main()
 {
     /* PART 1 : Set up traffic objects */
 
-    TrafficLight *trafficlight = new TrafficLight(); // #DEBUG
-    std::thread t1 (&TrafficLight::cycleThroughPhases, trafficlight); // #DEBUG
+    TrafficLight trafficlight; // #DEBUG
+    trafficlight.simulate(); // #DEBUG
 
 
     // create and connect intersections and streets
