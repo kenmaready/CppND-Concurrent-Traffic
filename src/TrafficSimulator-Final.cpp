@@ -6,7 +6,7 @@
 #include "Street.h"
 #include "Intersection.h"
 #include "Graphics.h"
-
+#include "TrafficLight.h" // #DEBUG POSSIBLY
 
 // Paris
 void createTrafficObjects_Paris(std::vector<std::shared_ptr<Street>> &streets, std::vector<std::shared_ptr<Intersection>> &intersections, std::vector<std::shared_ptr<Vehicle>> &vehicles, std::string &filename, int nVehicles)
@@ -116,6 +116,10 @@ void createTrafficObjects_NYC(std::vector<std::shared_ptr<Street>> &streets, std
 int main()
 {
     /* PART 1 : Set up traffic objects */
+
+    TrafficLight *trafficlight = new TrafficLight(); // #DEBUG
+    std::thread t1 (&TrafficLight::cycleThroughPhases, trafficlight); // #DEBUG
+
 
     // create and connect intersections and streets
     std::vector<std::shared_ptr<Street>> streets;

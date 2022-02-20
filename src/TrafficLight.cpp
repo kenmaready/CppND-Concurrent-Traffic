@@ -23,7 +23,7 @@ void MessageQueue<T>::send(T &&msg)
 
 /* Implementation of class "TrafficLight" */
 
-/* 
+
 TrafficLight::TrafficLight()
 {
     _currentPhase = TrafficLightPhase::red;
@@ -36,7 +36,7 @@ void TrafficLight::waitForGreen()
     // Once it receives TrafficLightPhase::green, the method returns.
 }
 
-TrafficLightPhase TrafficLight::getCurrentPhase()
+TrafficLightPhase TrafficLight::getCurrentPhase() const
 {
     return _currentPhase;
 }
@@ -52,7 +52,25 @@ void TrafficLight::cycleThroughPhases()
     // FP.2a : Implement the function with an infinite loop that measures the time between two loop cycles 
     // and toggles the current phase of the traffic light between red and green and sends an update method 
     // to the message queue using move semantics. The cycle duration should be a random value between 4 and 6 seconds. 
-    // Also, the while-loop should use std::this_thread::sleep_for to wait 1ms between two cycles. 
+    // Also, the while-loop should use std::this_thread::sleep_for to wait 1ms between two cycles.
+    
+
+    std::chrono::steady_clock::time_point cycle_end = _getNewCycleEnd();
+
+    while(true) {
+        if (std::chrono::steady_clock::now() > cycle_end) {
+            std::cout << "Cycle ended..." << std:: endl; // #DEBUG
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            cycle_end = _getNewCycleEnd();
+        }
+    } 
 }
 
-*/
+// helper function for cucleThroughPhases()
+std::chrono::steady_clock::time_point TrafficLight::_getNewCycleEnd() const 
+{
+    std::chrono::steady_clock::time_point cycle_start = std::chrono::steady_clock::now();
+    int cycle_duration = rand() % (_CYCLE_LENGTH_MAX - _CYCLE_LENGTH_MIN) + _CYCLE_LENGTH_MIN;
+    return cycle_start + std::chrono::milliseconds(cycle_duration);
+
+}

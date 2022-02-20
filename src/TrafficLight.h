@@ -4,7 +4,9 @@
 #include <mutex>
 #include <deque>
 #include <condition_variable>
+#include <iostream> // #DEBUG
 #include "TrafficObject.h"
+
 
 // forward declarations to avoid include cycle
 class Vehicle;
@@ -30,17 +32,25 @@ private:
 // can be either „red“ or „green“. Also, add the private method „void cycleThroughPhases()“. 
 // Furthermore, there shall be the private member _currentPhase which can take „red“ or „green“ as its value. 
 
-class TrafficLight
+enum class TrafficLightPhase { red, green };
+
+class TrafficLight : public TrafficObject
 {
 public:
     // constructor / desctructor
+    TrafficLight();
 
     // getters / setters
+    TrafficLightPhase getCurrentPhase() const;
 
     // typical behaviour methods
+    void waitForGreen();
+    void simulate();
+    void cycleThroughPhases(); // #DEBUG = move back to private
 
 private:
     // typical behaviour methods
+    std::chrono::steady_clock::time_point _getNewCycleEnd() const;
 
     // FP.4b : create a private member of type MessageQueue for messages of type TrafficLightPhase 
     // and use it within the infinite loop to push each new TrafficLightPhase into it by calling 
@@ -48,6 +58,9 @@ private:
 
     std::condition_variable _condition;
     std::mutex _mutex;
+    TrafficLightPhase _currentPhase;
+    int _CYCLE_LENGTH_MIN = 4000; // low end (in ms) of light cycle
+    int _CYCLE_LENGTH_MAX = 6000; // high end (in ms) of light cycle
 };
 
 #endif
