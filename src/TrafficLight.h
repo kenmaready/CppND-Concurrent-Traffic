@@ -1,9 +1,14 @@
 #ifndef TRAFFICLIGHT_H
 #define TRAFFICLIGHT_H
 
+#define CYCLE_LENGTH_MIN   4000 // low end (in ms) of light cycle]
+#define CYCLE_LENGTH_MAX   6000 // highend (in ms) of light cycle]
+
 #include <mutex>
 #include <deque>
 #include <condition_variable>
+#include <random>
+#include <ctime>
 #include "TrafficObject.h"
 
 
@@ -45,7 +50,7 @@ private:
     void cycleThroughPhases(); //
 
     // helper functions for cycleThroughPhases
-    std::chrono::steady_clock::time_point _getNewCycleEnd() const;
+    std::chrono::steady_clock::time_point _getNewCycleEnd();
     void _toggleLight();
 
     // private member variables
@@ -53,8 +58,6 @@ private:
     std::mutex _mutex;
     TrafficLightPhase _currentPhase;
     MessageQueue<TrafficLightPhase> _phases;
-    int _CYCLE_LENGTH_MIN = 4000; // low end (in ms) of light cycle
-    int _CYCLE_LENGTH_MAX = 6000; // high end (in ms) of light cycle
 };
 
 #endif

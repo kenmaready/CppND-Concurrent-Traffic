@@ -141,9 +141,7 @@ void Intersection::processVehicleQueue()
 }
 
 bool Intersection::trafficLightIsGreen()
-{
-   // please include this part once you have solved the final project tasks
-   
+{   
    if (_trafficLight.getCurrentPhase() == TrafficLightPhase::green)
        return true;
    else

@@ -26,7 +26,8 @@ void MessageQueue<T>::send(T &&msg)
     std::lock_guard<std::mutex> guard(_mutex);
 
     // add vmessage to queue
-    _queue.push_back(std::move(msg));
+    _queue.clear();
+    _queue.emplace_back(std::move(msg));
     _condition.notify_one(); 
 }
 
@@ -36,6 +37,7 @@ void MessageQueue<T>::send(T &&msg)
 TrafficLight::TrafficLight()
 {
     _currentPhase = TrafficLightPhase::red;
+
 }
 
 void TrafficLight::waitForGreen()
@@ -74,10 +76,10 @@ void TrafficLight::cycleThroughPhases()
 }
 
 // helper function for cucleThroughPhases()
-std::chrono::steady_clock::time_point TrafficLight::_getNewCycleEnd() const 
+std::chrono::steady_clock::time_point TrafficLight::_getNewCycleEnd() 
 {
     std::chrono::steady_clock::time_point cycle_start = std::chrono::steady_clock::now();
-    int cycle_duration = rand() % (_CYCLE_LENGTH_MAX - _CYCLE_LENGTH_MIN) + _CYCLE_LENGTH_MIN;
+    int cycle_duration = rand() % (CYCLE_LENGTH_MAX - CYCLE_LENGTH_MIN) + CYCLE_LENGTH_MIN;
     return cycle_start + std::chrono::milliseconds(cycle_duration);
 
 }
